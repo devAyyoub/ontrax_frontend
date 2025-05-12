@@ -4,7 +4,7 @@ import NavMenu from "@/components/NavMenu";
 
 export default function AppLayout() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <header className="bg-gray-800 text-white py-5">
         <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
           <div className="w-64">
@@ -13,11 +13,18 @@ export default function AppLayout() {
           <NavMenu/>
         </div>
       </header>
-      <section className="max-w-screen-2xl mx-auto mt-10 p-5"><Outlet /></section>
+
+      <main className="flex-grow">
+        <section className="max-w-screen-2xl mx-auto mt-10 p-5">
+          <Outlet />
+        </section>
+      </main>
+
       <footer className="py-5">
-        <p className="text-center">Todos los derechos reservados {new Date().getFullYear()}</p>
+        <p className="text-center">
+          Todos los derechos reservados {new Date().getFullYear()}
+        </p>
       </footer>
-      
-    </>
+    </div>
   );
 }
