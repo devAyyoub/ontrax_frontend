@@ -1,13 +1,19 @@
-import { Link } from "react-router-dom";
-import type { ProjectFormData } from "@/types/index";
+import { Link, useNavigate } from "react-router-dom";
+import type { Project, ProjectFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
 import ProjectForm from "./ProjectForm";
+import { useMutation } from "@tanstack/react-query";
+import { updateProject } from "@/api/ProjectApi";
+import { toast } from "react-toastify";
 
 type EditProjectForm = {
   data: ProjectFormData;
+  projectId: Project['_id'];
 };
 
-export default function EditProjectForm({ data }: EditProjectForm) {
+export default function EditProjectForm({ data, projectId }: EditProjectForm) {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -20,8 +26,23 @@ export default function EditProjectForm({ data }: EditProjectForm) {
     },
   });
 
-  const handleForm = (formData : ProjectFormData) => {
-    console.log(formData);
+  const { mutate } = useMutation({
+    mutationFn: updateProject,
+    onError: (error) => {
+        toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data);
+      navigate("/");
+    },
+  });
+
+  const handleForm = (formData: ProjectFormData) => {
+    const data = {
+      formData,
+      projectId,
+    };
+    mutate(data);
   };
   return (
     <div className="max-w-3xl mx-auto">
