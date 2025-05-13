@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Logo from "@/components/Logo";
 import NavMenu from "@/components/NavMenu";
+import { Bounce, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function AppLayout() {
   return (
@@ -25,6 +27,13 @@ export default function AppLayout() {
           Todos los derechos reservados {new Date().getFullYear()}
         </p>
       </footer>
+
+      <ToastContainer
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+        autoClose={3000}
+        transition={Bounce}
+      />
     </div>
   );
 }
