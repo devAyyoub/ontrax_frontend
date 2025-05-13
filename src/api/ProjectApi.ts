@@ -1,4 +1,4 @@
-import { dashboardProjectSchema, type ProjectFormData } from "@/types/index";
+import { dashboardProjectSchema, type Project, type ProjectFormData } from "@/types/index";
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 
@@ -20,6 +20,18 @@ export async function getProjects() {
     if (response.success) {
         return response.data
     }
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
+
+export async function getProjectById(id : Project['_id']) {
+  try {
+    const { data } = await api.get(`/projects/${id}`);
+    return data
+    
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.error);
