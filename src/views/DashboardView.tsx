@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/ProjectApi";
+import ProjectInfo from "@/components/projects/ProjectInfo";
 
 export default function DashboardView() {
   const { data, isLoading } = useQuery({
@@ -26,14 +27,23 @@ export default function DashboardView() {
           </Link>
         </nav>
         {data.length ? (
-          data.map((project) => <p key={project._id}>{project.projectName}</p>)
+          <ul
+            role="list"
+            className=" mt-10"
+          >
+            {data.map((project) => (
+              <ProjectInfo
+                key={project._id}
+                project={project}
+              />
+            ))}
+          </ul>
         ) : (
           <p className="text-center py-20">
-            No hay proyectos aún <br/>
-            <Link
-              className="text-fuchsia-600 font-bold"
-              to="/projects/create"
-            >Crear proyecto</Link>
+            No hay proyectos aún <br />
+            <Link className="text-fuchsia-600 font-bold" to="/projects/create">
+              Crear proyecto
+            </Link>
           </p>
         )}
       </>
