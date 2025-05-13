@@ -3,20 +3,25 @@ import type { ProjectFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
 import ProjectForm from "./ProjectForm";
 
-export default function EditProjectForm() {
-  const initialValues: ProjectFormData = {
-    projectName: "",
-    clientName: "",
-    description: "",
-  };
+type EditProjectForm = {
+  data: ProjectFormData;
+};
+
+export default function EditProjectForm({ data }: EditProjectForm) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: initialValues });
+  } = useForm({
+    defaultValues: {
+      projectName: data.projectName,
+      clientName: data.clientName,
+      description: data.description,
+    },
+  });
 
-  const handleForm = () => {
-    console.log("desde handleform");
+  const handleForm = (formData : ProjectFormData) => {
+    console.log(formData);
   };
   return (
     <div className="max-w-3xl mx-auto">

@@ -31,7 +31,7 @@ export default function DashboardView() {
         {data.length ? (
           <ul role="list" className=" mt-10">
             {data.map((project) => (
-              <li className="flex justify-between gap-x-6 px-5 py-10 mt-5 bg-white shadow-lg">
+              <li key={project._id} className="flex justify-between gap-x-6 px-5 py-10 mt-5 bg-white shadow-lg">
                 <div className="flex min-w-0 gap-x-4">
                   <div className="min-w-0 flex-auto space-y-2">
                     <Link
