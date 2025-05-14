@@ -8,7 +8,7 @@ type TaskApi = {
     taskId: Task['_id']
 }
 
-export const createTask = async ({formData, projectId} : TaskApi) => {
+export const createTask = async ({formData, projectId} : Pick<TaskApi, 'formData' | 'projectId'>) => {
   try {
     const url = `/projects/${projectId}/tasks`
     const { data } = await api.post<string>(url, formData)
@@ -24,7 +24,6 @@ export const getTaskById = async ({projectId, taskId} : Pick<TaskApi, 'projectId
   try {
     const url = `/projects/${projectId}/tasks/${taskId}`
     const { data } = await api.get(url)
-    console.log(data);
     return data
     
   } catch (error) {
