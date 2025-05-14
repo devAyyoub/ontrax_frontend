@@ -11,12 +11,12 @@ export default function EditTaskData() {
   const taskId = queryParams.get('editTask')!
   const projectId = params.projectId!
     
-    const { data, isLoading } = useQuery({
+    const { data } = useQuery({
     queryKey: ["task", taskId],
     queryFn: () => getTaskById({ projectId, taskId }),
     enabled: !!taskId
   });
   
   
-  if (data) return <EditTaskModal/>
+  if (data) return <EditTaskModal data={data}/>
 }

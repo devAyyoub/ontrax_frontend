@@ -18,8 +18,8 @@ export default function AddTaskModal() {
   const show = modalTask ? true : false;
 
   /** Reading projectId from the url */
-  const params = useParams()
-  const projectId = params.projectId!
+  const params = useParams();
+  const projectId = params.projectId!;
 
   const initialValues: TaskFormData = {
     name: "",
@@ -33,17 +33,16 @@ export default function AddTaskModal() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  const queryclient = useQueryClient()
+  const queryclient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: createTask,
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-        queryclient.invalidateQueries({queryKey: ['editProject', projectId]})
+      queryclient.invalidateQueries({ queryKey: ["editProject", projectId] });
       toast.success(data?.toString());
-      reset(),
-      navigate(location.pathname, { replace: true })
+      reset(), navigate(location.pathname, { replace: true });
     },
   });
 
