@@ -1,20 +1,26 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Task, TaskFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
 import TaskForm from "./TaskForm";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateTask } from "@/api/TaskApi";
+import { toast } from "react-toastify";
 
 type EditTaskModalProps = {
   data: Task;
+  taskId: Task['_id']
 };
 
-export default function EditTaskModal({ data }: EditTaskModalProps) {
+export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
   const navigate = useNavigate();
-
+  const params = useParams();
+  const projectId = params.projectId!;
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TaskFormData>({
     defaultValues: {
@@ -22,9 +28,26 @@ export default function EditTaskModal({ data }: EditTaskModalProps) {
       description: data.description,
     },
   });
+  const queryclient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: updateTask,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      queryclient.invalidateQueries({ queryKey: ["editProject", projectId] });
+      toast.success(data?.toString());
+      reset(), navigate(location.pathname, { replace: true });
+    },
+  });
 
-  const handleEditTask = async (formData : TaskFormData) => {
-    console.log(formData);
+  const handleEditTask = async (formData: TaskFormData) => {
+    const data = {
+        projectId,
+        taskId,
+        formData
+    }
+    mutate(data)
   };
   return (
     <Transition appear show={true} as={Fragment}>
@@ -71,10 +94,7 @@ export default function EditTaskModal({ data }: EditTaskModalProps) {
                   onSubmit={handleSubmit(handleEditTask)}
                   noValidate
                 >
-                    <TaskForm
-                        errors={errors}
-                        register={register}
-                    />
+                  <TaskForm errors={errors} register={register} />
                   <input
                     type="submit"
                     className=" bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
