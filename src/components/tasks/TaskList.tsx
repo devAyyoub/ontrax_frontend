@@ -14,7 +14,7 @@ const initialStatusGroups: GroupedTasks = {
   pending: [],
   onHold: [],
   inProgress: [],
-  underReview: [],
+  under_review: [],
   completed: [],
 };
 
@@ -22,7 +22,7 @@ const statusStyles: { [key: string]: string } = {
   pending: "border-t-slate-500",
   onHold: "border-t-red-500",
   inProgress: "border-t-blue-500",
-  underReview: "border-t-amber-500",
+  under_review: "border-t-amber-500",
   completed: "border-t-emerald-500",
 };
 
