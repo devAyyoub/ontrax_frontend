@@ -15,19 +15,19 @@ export const createTask = async ({formData, projectId} : Pick<TaskApi, 'formData
     return data
   } catch (error) {
     if(isAxiosError(error) && error.response) {
-        return new Error(error.response.data.error)
+        throw new Error(error.response.data.error)
     }
   }
 };
 
-export const getTaskById = async ({projectId, taskId} : Pick<TaskApi, 'projectId' | 'taskId'>) => {
+export const getTaskById = async ({projectId, taskId} : Pick<TaskApi, 'projectId' | 'taskId'>) => {  
   try {
     const url = `/projects/${projectId}/tasks/${taskId}`
     const { data } = await api.get(url)
     return data
   } catch (error) {
-    if(isAxiosError(error) && error.response) {
-        return new Error(error.response.data.error)
+    if(isAxiosError(error) && error.response) {        
+        throw new Error(error.response.data.error)
     }
   }
 }
@@ -39,7 +39,7 @@ export const updateTask = async ({projectId, taskId, formData} : Pick<TaskApi, '
     return data
   } catch (error) {
     if(isAxiosError(error) && error.response) {
-        return new Error(error.response.data.error)
+        throw new Error(error.response.data.error)
     }
   }
 }
@@ -51,7 +51,7 @@ export const deleteTask = async ({projectId, taskId} : Pick<TaskApi, 'projectId'
     return data
   } catch (error) {
     if(isAxiosError(error) && error.response) {
-        return new Error(error.response.data.error)
+        throw new Error(error.response.data.error)
     }
   }
 }
