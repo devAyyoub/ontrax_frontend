@@ -32,8 +32,8 @@ export default function RegisterView() {
     },
     onSuccess: (data) => {
       toast.success(data);
-      navigate('/auth/login')
-      reset()
+      navigate("/auth/login");
+      reset();
     },
   });
 
@@ -139,6 +139,12 @@ export default function RegisterView() {
           className="text-center text-gray-300 font-normal"
         >
           Ya tienes cuenta? Iniciar sesión
+        </Link>
+        <Link
+          to="/auth/forgot-password"
+          className="text-center text-gray-300 font-normal"
+        >
+          Olvidaste tu contraseña? Reestablecer
         </Link>
       </nav>
     </>
