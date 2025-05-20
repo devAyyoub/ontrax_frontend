@@ -25,13 +25,12 @@ export default function LoginView() {
     },
     onSuccess: () => {
       toast.success('Iniciando sesión...');
-      
+      navigate('/')
     },
   });
 
   const handleLogin = (formData: UserLoginForm) => {
     mutate(formData);
-    navigate('/')
   };
 
   return (
