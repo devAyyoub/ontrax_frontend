@@ -4,10 +4,10 @@ import EditTaskData from "@/components/tasks/EditTaskData";
 import TaskList from "@/components/tasks/TaskList";
 import TaskModalDetails from "@/components/tasks/TaskModalDetails";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 export default function ProjectDetailsView() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const params = useParams();
   const projectId = params.projectId!;
 
@@ -16,7 +16,6 @@ export default function ProjectDetailsView() {
     queryFn: () => getProjectById(projectId),
     retry: false,
   });
-
   if (isLoading) return "Cargando...";
   if (isError) return <Navigate to={"/404"} />;
   if (data)
@@ -30,15 +29,21 @@ export default function ProjectDetailsView() {
           <button
             type="button"
             className="bg-purple-600 hover:bg-purple-700 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-            onClick={() => navigate(location.pathname + '?newTask=true')}
-          >Agregar tarea</button>
+            onClick={() => navigate(location.pathname + "?newTask=true")}
+          >
+            Agregar tarea
+          </button>
+          <Link
+            className="bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
+            to={'team'}
+          >
+            Colaboradores
+          </Link>
         </nav>
-        <TaskList
-          tasks = {data.tasks}
-        />
-        <AddTaskModal/>
-        <EditTaskData/>
-        <TaskModalDetails/>
+        <TaskList tasks={data.tasks} />
+        <AddTaskModal />
+        <EditTaskData />
+        <TaskModalDetails />
       </>
     );
 }
