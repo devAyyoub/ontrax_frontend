@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "../ErrorMessage";
 import type { TeamMemberForm } from "@/types/index";
-import { toast } from "react-toastify";
 import { findUserByEmail } from "@/api/TeamApi";
 import SearchResult from "./SearchResult";
 
@@ -32,6 +31,11 @@ export default function AddMemberForm() {
     };
     mutation.mutate(data);
   };
+
+  const resetData = () => {
+    reset(),
+    mutation.reset()
+  }
 
   return (
     <>
@@ -71,7 +75,7 @@ export default function AddMemberForm() {
         {mutation.isError && (
           <p className="text-center">{mutation.error.message}</p>
         )}
-        {mutation.data && <SearchResult user={mutation.data}/>}
+        {mutation.data && <SearchResult user={mutation.data} resetData={resetData}/>}
       </div>
     </>
   );
