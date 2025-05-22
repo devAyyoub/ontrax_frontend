@@ -51,3 +51,15 @@ export const getProjectTeam = async (projectId : Project['_id']) => {
     }
   }
 }
+
+export const removeUserFromProject = async ({projectId, id} : Pick<TeamApi, 'projectId' | 'id'>) => {
+    try {
+        const url = `/projects/${projectId}/team/${id}`
+        const {data} = await api.delete<string>(url)
+        return data
+    } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}
