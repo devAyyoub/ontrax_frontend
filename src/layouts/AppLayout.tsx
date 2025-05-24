@@ -1,4 +1,4 @@
-import { Link, Outlet, Navigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Logo from "@/components/Logo";
 import NavMenu from "@/components/NavMenu";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -6,10 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function AppLayout() {
+  const navigate = useNavigate()
   const { data, isError, isLoading } = useAuth();
   if (isLoading) return "Cargando...";
   if (isError) {
-    return <Navigate to="/auth/login" />;
+    navigate("/auth/login")
   }
   if (data)
     return (
