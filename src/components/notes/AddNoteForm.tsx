@@ -1,46 +1,57 @@
 import type { NoteFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../ErrorMessage";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/api/NoteApi";
 import { toast } from "react-toastify";
 import { useLocation, useParams } from "react-router-dom";
 
 export default function AddNoteForm() {
-  const initialValues : NoteFormData = {
+  const initialValues: NoteFormData = {
     content: "",
   };
 
-  const params = useParams()
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
+  const params = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
 
-  const projectId = params.projectId!
-  const taskId = queryParams.get('viewTask')!
+  const projectId = params.projectId!;
+  const taskId = queryParams.get("viewTask")!;
 
-  const {register, handleSubmit, formState: {errors}, reset} = useForm({defaultValues: initialValues})
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ defaultValues: initialValues });
 
-  const {mutate} = useMutation({
+  const queryclient = useQueryClient();
+  const { mutate } = useMutation({
     mutationFn: createNote,
     onError: (error) => {
-        toast.error(error.message)
+      toast.error(error.message);
     },
     onSuccess: (data) => {
-        toast.success(data)
-        reset()
-    }
-  })
+      queryclient.invalidateQueries({ queryKey: ["task", taskId] });
+      toast.success(data);
+      reset();
+    },
+  });
 
-  const handleAddNote = (formData : NoteFormData) => {
+  const handleAddNote = (formData: NoteFormData) => {
     const data = {
-        formData,
-        projectId,
-        taskId
-    }
-    mutate(data)
-  }
+      formData,
+      projectId,
+      taskId,
+    };
+    mutate(data);
+  };
   return (
-    <form onSubmit={handleSubmit(handleAddNote)} className="space-y-3" noValidate>
+    <form
+      onSubmit={handleSubmit(handleAddNote)}
+      className="space-y-3"
+      noValidate
+    >
       <div className="flex flex-col gap-2">
         <label htmlFor="content" className="font-bold">
           Crear nota
@@ -50,12 +61,12 @@ export default function AddNoteForm() {
           id="content"
           className="w-full p-3 border border-gray-300"
           placeholder="Contenido de la nota"
-          {...register('content', {
-            required: 'El contenido de la nota es obligatorio'
+          {...register("content", {
+            required: "El contenido de la nota es obligatorio",
           })}
         />
         {errors.content && (
-            <ErrorMessage>{errors.content.message}</ErrorMessage>
+          <ErrorMessage>{errors.content.message}</ErrorMessage>
         )}
       </div>
       <input
