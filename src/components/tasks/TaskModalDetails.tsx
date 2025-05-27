@@ -1,10 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTaskById, updateStatus } from "@/api/TaskApi";
 import { toast } from "react-toastify";
@@ -29,31 +25,31 @@ export default function TaskModalDetails() {
     retry: false,
   });
 
-  const queryclient = useQueryClient()
-  const {mutate} = useMutation({
+  const queryclient = useQueryClient();
+  const { mutate } = useMutation({
     mutationFn: updateStatus,
     onError: (error) => {
-        toast.error(error.message)
+      toast.error(error.message);
     },
     onSuccess: (data) => {
-        toast.success(data)
-        queryclient.invalidateQueries({queryKey: ['project', projectId]})
-        queryclient.invalidateQueries({queryKey: ['task', taskId]})
-        navigate(location.pathname, {replace: true})
-    }
-  })
+      toast.success(data);
+      queryclient.invalidateQueries({ queryKey: ["project", projectId] });
+      queryclient.invalidateQueries({ queryKey: ["task", taskId] });
+      // navigate(location.pathname, {replace: true})
+    },
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const status = e.target.value as TaskStatus
+    const status = e.target.value as TaskStatus;
 
     const data = {
-        projectId,
-        taskId,
-        status
-    }
-    
-    mutate(data)
-  }
+      projectId,
+      taskId,
+      status,
+    };
+
+    mutate(data);
+  };
 
   useEffect(() => {
     if (isError && error instanceof Error) {
@@ -61,7 +57,6 @@ export default function TaskModalDetails() {
       navigate(`/projects/${projectId}`);
     }
   }, [isError, error]);
-
 
   if (data)
     return (
@@ -96,9 +91,11 @@ export default function TaskModalDetails() {
                   leaveTo="opacity-0 scale-95"
                 >
                   <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
-                    <p className="text-sm text-slate-400">Agregada el: {formatDate(data.createdAt)} </p>
                     <p className="text-sm text-slate-400">
-                      Última actualización:{" "} {formatDate(data.updatedAt)}
+                      Agregada el: {formatDate(data.createdAt)}{" "}
+                    </p>
+                    <p className="text-sm text-slate-400">
+                      Última actualización: {formatDate(data.updatedAt)}
                     </p>
                     <Dialog.Title
                       as="h3"
@@ -106,13 +103,38 @@ export default function TaskModalDetails() {
                     >
                       {data.name}
                     </Dialog.Title>
-                    <p className="text-lg text-slate-500 mb-2">Descripción: {data.description}</p>
+                    <p className="text-lg text-slate-500 mb-2">
+                      Descripción: {data.description}
+                    </p>
+                    <p className="text-2xl font-bold text-slate-500 mb-2">
+                      Historial de cambios
+                    </p>
+                    <ul className="list-decimal ml-4">
+                      {data.completedBy.map((activityLog) => (
+                        <li key={activityLog._id}>
+                          <span className="font-bold text-slate-600">
+                            {statusTranslations[activityLog.status]} por:
+                          </span>{" "}
+                          {activityLog.user.name}
+                        </li>
+                      ))}
+                    </ul>
                     <div className="my-5 space-y-3">
                       <label className="font-bold">Estado Actual:</label>
-                      <select name="" id="" className="w-full p-3 bg-white border border-gray-300 mt-2" defaultValue={data.status} onChange={handleChange}>
-                        {Object.entries(statusTranslations).map(([key, value]) => (
-                            <option value={key} key={key}>{value}</option>
-                        ))}
+                      <select
+                        name=""
+                        id=""
+                        className="w-full p-3 bg-white border border-gray-300 mt-2"
+                        defaultValue={data.status}
+                        onChange={handleChange}
+                      >
+                        {Object.entries(statusTranslations).map(
+                          ([key, value]) => (
+                            <option value={key} key={key}>
+                              {value}
+                            </option>
+                          )
+                        )}
                       </select>
                     </div>
                   </Dialog.Panel>
