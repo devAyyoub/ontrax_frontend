@@ -1,4 +1,4 @@
-import { validateToken } from "@/api/AuthAPI";
+import { validateToken } from "@/api/AuthApi";
 import type { ConfirmToken } from "@/types/index";
 import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useMutation } from "@tanstack/react-query";

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import type { RequestConfirmationCodeForm } from "../../types";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
-import { requestConfirmationCode } from "@/api/AuthAPI";
+import { requestConfirmationCode } from "@/api/AuthApi";
 import { toast } from "react-toastify";
 
 export default function RegisterView() {

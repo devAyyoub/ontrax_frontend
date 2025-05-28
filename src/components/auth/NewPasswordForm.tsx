@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
-import { updatePasswordWithToken } from "@/api/AuthAPI";
+import { updatePasswordWithToken } from "@/api/AuthApi";
 import { toast } from "react-toastify";
 
 type NewPasswordFormProps = {

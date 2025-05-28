@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { ForgotPasswordForm } from "../../types";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
-import { forgotPassword } from "@/api/AuthAPI";
+import { forgotPassword } from "@/api/AuthApi";
 import { toast } from "react-toastify";
 
 export default function ForgotPasswordView() {

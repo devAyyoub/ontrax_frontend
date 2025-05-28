@@ -3,7 +3,7 @@ import type { UserLoginForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { authenticateUser } from "@/api/AuthAPI";
+import { authenticateUser } from "@/api/AuthApi";
 import { toast } from "react-toastify";
 
 export default function LoginView() {
