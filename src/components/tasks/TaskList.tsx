@@ -34,8 +34,8 @@ const statusStyles: { [key: string]: string } = {
 };
 
 export default function TaskList({ tasks, canEdit }: TaskListProps) {
-  const params = useParams()
-  const projectId = params.projectId!
+  const params = useParams();
+  const projectId = params.projectId!;
   const queryclient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: updateStatus,
@@ -54,17 +54,32 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
     return { ...acc, [task.status]: currentGroup };
   }, initialStatusGroups);
 
-  const handleDragEnd = (e : DragEndEvent) => {
-    const { over, active } = e
+  const handleDragEnd = (e: DragEndEvent) => {
+    const { over, active } = e;
 
     if (over && over.id) {
       const taskId = active.id.toString();
-      const status = over.id as TaskStatus
+      const status = over.id as TaskStatus;
+      mutate({ projectId, taskId, status });
 
-      mutate({projectId, taskId, status})
-    } 
-    
-  }
+      // Esto se hace para la obtener la actualización optimista de React Query. Esto se hace porque el invalidar queries tarda un poco y con esto se puede agilizar el cambio de estado de las tareas
+      queryclient.setQueryData(["project", projectId], (prevData : any) => {
+        const updatedTasks = prevData.tasks.map((task: Task) => {
+          if (task._id === taskId) {
+            return {
+              ...task,
+              status,
+            };
+          }
+          return task;
+        });
+        return {
+          ...prevData,
+          tasks: updatedTasks,
+        };
+      });
+    }
+  };
 
   return (
     <>
@@ -80,7 +95,7 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
                 {statusTranslations[status]}
               </h3>
 
-              <DropTask status={status}/>
+              <DropTask status={status} />
 
               <ul className="mt-5 space-y-5">
                 {tasks.length === 0 ? (
