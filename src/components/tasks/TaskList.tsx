@@ -63,7 +63,7 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
       mutate({ projectId, taskId, status });
 
       // Esto se hace para la obtener la actualización optimista de React Query. Esto se hace porque el invalidar queries tarda un poco y con esto se puede agilizar el cambio de estado de las tareas
-      queryclient.setQueryData(["project", projectId], (prevData : Project) => {
+      queryclient.setQueryData(["project", projectId], (prevData: Project) => {
         const updatedTasks = prevData.tasks.map((task) => {
           if (task._id === taskId) {
             return {
