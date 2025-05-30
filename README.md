@@ -159,10 +159,6 @@ Configuración completa con tipos estrictos y resolución de módulos optimizada
 - Gestionar permisos de miembros
 - Ver información del equipo
 
-## 📱 Responsive Design
-
-La aplicación está completamente optimizada para dispositivos móviles y de escritorio utilizando TailwindCSS y diseño responsive.
-
 ## 🔒 Seguridad
 
 - Autenticación basada en tokens
