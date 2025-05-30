@@ -117,7 +117,7 @@ src/
 ├── views/           # Páginas/vistas de la aplicación
 ├── main.tsx         # Punto de entrada principal
 └── router.tsx       # Configuración de rutas
-``` [31](#0-30) 
+```
 
 ## 🔧 Configuración
 
@@ -189,3 +189,5 @@ Para consultas sobre el proyecto, contactar al correo: Ayyoubamjahed@gmail.com .
 ---
 
 **Ontrax** - Gestión de proyectos simplificada y eficiente.
+
+
