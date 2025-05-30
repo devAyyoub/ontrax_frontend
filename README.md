@@ -189,7 +189,3 @@ Para consultas sobre el proyecto, contactar al correo: Ayyoubamjahed@gmail.com .
 ---
 
 **Ontrax** - Gestión de proyectos simplificada y eficiente.
-
-## Notes
-
-Este README se ha generado basándose en el análisis completo del código fuente del proyecto Ontrax. La aplicación es un sistema de gestión de proyectos moderno que implementa las mejores prácticas de desarrollo frontend con React, TypeScript y herramientas actuales del ecosistema. El proyecto cuenta con una arquitectura bien estructurada, sistema de tipos robusto con Zod, y una interfaz de usuario intuitiva construida con TailwindCSS.
